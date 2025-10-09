@@ -1,4 +1,4 @@
-
+/* ==== БАЗОВЫЕ СТИЛИ ==== */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -7,14 +7,23 @@ body {
     min-height: 100vh;
 }
 
+/* ==== КОНТЕЙНЕР СТРАНИЦЫ С GRID ==== */
 .page-container {
     max-width: 1200px;
     margin: 0 auto;
     background: white;
     min-height: 100vh;
     box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+        "header"
+        "nav"
+        "main"
+        "footer";
 }
 
+/* ==== ШАПКА ==== */
 .header {
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     color: white;
@@ -23,11 +32,20 @@ body {
     font-size: 28px;
     font-weight: 300;
     letter-spacing: 2px;
+    grid-area: header;
 }
 
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 300;
+}
+
+/* ==== НАВИГАЦИЯ ==== */
 .nav {
     background: #2c3e50;
     padding: 20px 0;
+    grid-area: nav;
 }
 
 .nav-list {
@@ -57,12 +75,15 @@ body {
     transform: translateY(-2px);
 }
 
+/* ==== ОСНОВНОЙ КОНТЕНТ ==== */
 .content {
     padding: 40px;
     max-width: 900px;
     margin: 0 auto;
+    grid-area: main;
 }
 
+/* ==== ГЛАВНАЯ СТРАНИЦА ==== */
 .profile-header {
     text-align: center;
     margin-bottom: 40px;
@@ -108,12 +129,23 @@ body {
     line-height: 1.8;
 }
 
-.skills-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+.about-me h2 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+/* ==== НАВЫКИ С GRID ==== */
+.skills-section h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
-    margin: 30px 0;
+    margin: 20px 0;
 }
 
 .skill-tag {
@@ -125,6 +157,7 @@ body {
     font-size: 14px;
     box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
     transition: all 0.3s ease;
+    text-align: center;
 }
 
 .skill-tag:hover {
@@ -132,6 +165,7 @@ body {
     box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
 }
 
+/* ==== ОПЫТ РАБОТЫ С GRID ==== */
 .experience-section {
     margin-top: 50px;
 }
@@ -144,10 +178,15 @@ body {
     font-weight: 300;
 }
 
+.experience-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
 .experience-card {
     background: white;
     padding: 25px;
-    margin: 20px 0;
     border-radius: 12px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.08);
     border-left: 4px solid #667eea;
@@ -171,10 +210,36 @@ body {
     margin: 0;
 }
 
+/* ==== ФУТЕР ==== */
 .footer {
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     color: white;
     text-align: center;
     padding: 30px;
     margin-top: 50px;
+    grid-area: footer;
+}
+
+/* ==== АДАПТИВНОСТЬ ==== */
+@media (max-width: 768px) {
+    .nav-list {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .experience-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .content {
+        padding: 20px;
+    }
+    
+    .nav-link {
+        padding: 10px 20px;
+    }
 }
