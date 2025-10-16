@@ -65,6 +65,120 @@
             font-weight: bold;
             color: #28a745;
         }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+
+        .discount-price {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .original-price {
+            color: #95a5a6;
+            text-decoration: line-through;
+            font-size: 0.9rem;
+            margin-left: 8px;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .product-card.discount {
+            border: 2px solid #ff6b6b;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card.discount::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            background: #ff6b6b;
+            transform: rotate(45deg);
+            z-index: 5;
+        }
+
+        .discount-ribbon {
+            position: absolute;
+            top: 15px;
+            left: -30px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(-45deg);
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .stock-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(52, 152, 219, 0.9);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .timer-badge {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .flash-sale {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24, #ff9ff3, #f368e0);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .category-filter {
+            transition: all 0.3s ease;
+        }
+
+        .category-filter:hover {
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -125,31 +239,67 @@
 
         <!-- Main Content -->
         <main class="container my-4">
+            <!-- Flash Sale Banner -->
+            <section class="mb-4">
+                <div class="card flash-sale text-white">
+                </div>
+            </section>
+
+            <!-- Filters -->
+            <section class="mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h5 class="mb-0">Наши товары</h5>
+                                <small class="text-muted">Показано <span id="productCount">6</span> товаров</small>
+                            </div>
+                            <div class="col-md-6 text-md-end">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-outline-primary active category-filter" onclick="filterProducts('all')">
+                                        Все товары
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger category-filter" onclick="filterProducts('discount')">
+                                        <i class="bi bi-percent"></i> Со скидкой
+                                    </button>
+                                    <button type="button" class="btn btn-outline-success category-filter" onclick="filterProducts('popular')">
+                                        <i class="bi bi-star"></i> Популярные
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Products Section -->
             <section class="mb-5">
                 <div class="card shadow-sm">
-                    <div class="card-header bg-light">
-                        <h2 class="card-title h4 mb-0">
-                            <i class="bi bi-grid-3x3-gap text-primary me-2"></i>
-                            Наши товары
-                        </h2>
-                    </div>
                     <div class="card-body">
-                        <div class="row g-4">
-                            <!-- Товар 1 -->
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card product-card h-100">
+                        <div class="row g-4" id="productsGrid">
+                            <!-- Товар 1 со скидкой -->
+                            <div class="col-lg-4 col-md-6 product-item" data-category="discount popular">
+                                <div class="card product-card h-100 discount">
+                                    <div class="discount-badge">-30%</div>
+                                    <div class="discount-ribbon">ХИТ</div>
+                                    <div class="stock-badge">Осталось 3 шт.</div>
                                     <img src="../images/product1.jpg" class="card-img-top product-img" alt="Женский наборчик">
                                     <div class="card-body d-flex flex-column">
                                         <h5 class="card-title">Женский наборчик</h5>
                                         <p class="card-text flex-grow-1">
-                                            Стильный и практичный набор для современных женщин
+                                            Стильный и практичный набор для современных женщин. Включает косметичку, зеркальце и аксессуары.
                                         </p>
                                         <div class="mt-auto">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <span class="price-tag">5 000 ₽</span>
-                                                <button class="btn btn-primary btn-sm">
-                                                    <i class="bi bi-cart-plus"></i> В корзину
+                                            <div class="price-container">
+                                                <span class="discount-price">3 500 ₽</span>
+                                                <span class="original-price">5 000 ₽</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                                <small class="text-success">
+                                                    <i class="bi bi-clock"></i> Акция до 31.12.2024
+                                                </small>
+                                                <button class="btn btn-danger btn-sm">
+                                                    <i class="bi bi-cart-plus"></i> Купить
                                                 </button>
                                             </div>
                                         </div>
@@ -157,14 +307,15 @@
                                 </div>
                             </div>
 
-                            <!-- Товар 2 -->
-                            <div class="col-lg-4 col-md-6">
+                            <!-- Товар 2 без скидки -->
+                            <div class="col-lg-4 col-md-6 product-item" data-category="popular">
                                 <div class="card product-card h-100">
+                                    <div class="stock-badge">В наличии</div>
                                     <img src="../images/product2.jpg" class="card-img-top product-img" alt="Обеденный наборчик">
                                     <div class="card-body d-flex flex-column">
                                         <h5 class="card-title">Обеденный наборчик</h5>
                                         <p class="card-text flex-grow-1">
-                                            Удобный набор для обеденных перерывов на работе или учебе
+                                            Удобный набор для обеденных перерывов на работе или учебе. Контейнер, приборы и салфетки.
                                         </p>
                                         <div class="mt-auto">
                                             <div class="d-flex justify-content-between align-items-center">
@@ -178,20 +329,28 @@
                                 </div>
                             </div>
 
-                            <!-- Товар 3 -->
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card product-card h-100">
+                            <!-- Товар 3 с максимальной скидкой -->
+                            <div class="col-lg-4 col-md-6 product-item" data-category="discount">
+                                <div class="card product-card h-100 discount">
+                                    <div class="discount-badge">-50%</div>
+                                    <div class="stock-badge">Осталось 2 шт.</div>
                                     <img src="../images/product3.jpg" class="card-img-top product-img" alt="Алмазный меч">
                                     <div class="card-body d-flex flex-column">
                                         <h5 class="card-title">Алмазный меч</h5>
                                         <p class="card-text flex-grow-1">
-                                            Легендарное оружие с алмазной отделкой. Идеально для коллекционеров
+                                            Легендарное оружие с алмазной отделкой. Идеально для коллекционеров и настоящих ценителей.
                                         </p>
                                         <div class="mt-auto">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <span class="price-tag">100 000 000 ₽</span>
-                                                <button class="btn btn-primary btn-sm">
-                                                    <i class="bi bi-cart-plus"></i> В корзину
+                                            <div class="price-container">
+                                                <span class="discount-price">50 000 000 ₽</span>
+                                                <span class="original-price">100 000 000 ₽</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                                <small class="text-warning">
+                                                    <i class="bi bi-lightning"></i> Осталось 2 шт.
+                                                </small>
+                                                <button class="btn btn-danger btn-sm">
+                                                    <i class="bi bi-cart-plus"></i> Купить
                                                 </button>
                                             </div>
                                         </div>
@@ -199,20 +358,24 @@
                                 </div>
                             </div>
 
-                            <!-- Дополнительные товары для демонстрации сетки -->
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card product-card h-100">
+                            <!-- Товар 4 со скидкой -->
+                            <div class="col-lg-4 col-md-6 product-item" data-category="discount">
+                                <div class="card product-card h-100 discount">
+                                    <div class="discount-badge">-20%</div>
                                     <div class="card-body d-flex flex-column text-center">
                                         <i class="bi bi-gift display-1 text-primary mb-3"></i>
                                         <h5 class="card-title">Подарочный сертификат</h5>
                                         <p class="card-text flex-grow-1">
-                                            Дарите возможность выбора - подарочный сертификат на любую сумму
+                                            Дарите возможность выбора - подарочный сертификат на любую сумму. Идеальный подарок!
                                         </p>
                                         <div class="mt-auto">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <span class="price-tag">от 1 000 ₽</span>
-                                                <button class="btn btn-outline-primary btn-sm">
-                                                    <i class="bi bi-info-circle"></i> Подробнее
+                                            <div class="price-container justify-content-center">
+                                                <span class="discount-price">800 ₽</span>
+                                                <span class="original-price">1 000 ₽</span>
+                                            </div>
+                                            <div class="mt-2">
+                                                <button class="btn btn-danger btn-sm w-100">
+                                                    <i class="bi bi-info-circle"></i> Купить со скидкой
                                                 </button>
                                             </div>
                                         </div>
@@ -220,13 +383,14 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-4 col-md-6">
+                            <!-- Товар 5 без скидки -->
+                            <div class="col-lg-4 col-md-6 product-item" data-category="popular">
                                 <div class="card product-card h-100">
                                     <div class="card-body d-flex flex-column text-center">
                                         <i class="bi bi-headset display-1 text-success mb-3"></i>
                                         <h5 class="card-title">IT-Консультация</h5>
                                         <p class="card-text flex-grow-1">
-                                            Профессиональная консультация по веб-разработке и IT-технологиям
+                                            Профессиональная консультация по веб-разработке и IT-технологиям. Опыт 3+ года.
                                         </p>
                                         <div class="mt-auto">
                                             <div class="d-flex justify-content-between align-items-center">
@@ -240,19 +404,24 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card product-card h-100">
+                            <!-- Товар 6 со скидкой -->
+                            <div class="col-lg-4 col-md-6 product-item" data-category="discount popular">
+                                <div class="card product-card h-100 discount">
+                                    <div class="discount-badge">-15%</div>
                                     <div class="card-body d-flex flex-column text-center">
                                         <i class="bi bi-code-slash display-1 text-info mb-3"></i>
                                         <h5 class="card-title">Разработка сайта</h5>
                                         <p class="card-text flex-grow-1">
-                                            Создание современных адаптивных сайтов под ключ
+                                            Создание современных адаптивных сайтов под ключ. HTML, CSS, JavaScript, Bootstrap.
                                         </p>
                                         <div class="mt-auto">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <span class="price-tag">от 15 000 ₽</span>
-                                                <button class="btn btn-info btn-sm">
-                                                    <i class="bi bi-chat-dots"></i> Обсудить
+                                            <div class="price-container justify-content-center">
+                                                <span class="discount-price">12 750 ₽</span>
+                                                <span class="original-price">15 000 ₽</span>
+                                            </div>
+                                            <div class="mt-2">
+                                                <button class="btn btn-danger btn-sm w-100">
+                                                    <i class="bi bi-chat-dots"></i> Заказать со скидкой
                                                 </button>
                                             </div>
                                         </div>
@@ -272,7 +441,7 @@
                             <div class="card-body">
                                 <i class="bi bi-truck display-4 text-primary mb-3"></i>
                                 <h5>Быстрая доставка</h5>
-                                <p class="text-muted">Доставка по Москве в течение 24 часов</p>
+                                <p class="text-muted">Доставка по Москве в течение 24 часов. По России - 3-5 дней.</p>
                             </div>
                         </div>
                     </div>
@@ -281,7 +450,7 @@
                             <div class="card-body">
                                 <i class="bi bi-shield-check display-4 text-success mb-3"></i>
                                 <h5>Гарантия качества</h5>
-                                <p class="text-muted">Все товары проходят строгий контроль качества</p>
+                                <p class="text-muted">Все товары проходят строгий контроль качества. Гарантия 1 год.</p>
                             </div>
                         </div>
                     </div>
@@ -290,7 +459,7 @@
                             <div class="card-body">
                                 <i class="bi bi-arrow-clockwise display-4 text-warning mb-3"></i>
                                 <h5>Легкий возврат</h5>
-                                <p class="text-muted">Возврат товара в течение 14 дней без вопросов</p>
+                                <p class="text-muted">Возврат товара в течение 14 дней без вопросов и комиссий.</p>
                             </div>
                         </div>
                     </div>
@@ -343,11 +512,87 @@
             }
         }
 
+        // Таймер распродажи
+        function startSaleTimer() {
+            const timerElement = document.getElementById('saleTimer');
+            let time = 7 * 60 * 60; // 7 часов в секундах
+
+            function updateTimer() {
+                const hours = Math.floor(time / 3600);
+                const minutes = Math.floor((time % 3600) / 60);
+                const seconds = time % 60;
+
+                timerElement.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (time > 0) {
+                    time--;
+                    setTimeout(updateTimer, 1000);
+                } else {
+                    timerElement.textContent = 'Акция завершена!';
+                    timerElement.parentElement.classList.remove('timer-badge');
+                    timerElement.parentElement.classList.add('bg-secondary');
+                }
+            }
+
+            updateTimer();
+        }
+
+        // Функция фильтрации товаров
+        function filterProducts(filter) {
+            const products = document.querySelectorAll('.product-item');
+            const filterButtons = document.querySelectorAll('.category-filter');
+            let visibleCount = 0;
+            
+            // Обновляем активную кнопку
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            products.forEach(product => {
+                const categories = product.getAttribute('data-category').split(' ');
+                
+                switch(filter) {
+                    case 'all':
+                        product.style.display = 'block';
+                        visibleCount++;
+                        break;
+                    case 'discount':
+                        if (categories.includes('discount')) {
+                            product.style.display = 'block';
+                            visibleCount++;
+                        } else {
+                            product.style.display = 'none';
+                        }
+                        break;
+                    case 'popular':
+                        if (categories.includes('popular')) {
+                            product.style.display = 'block';
+                            visibleCount++;
+                        } else {
+                            product.style.display = 'none';
+                        }
+                        break;
+                }
+            });
+
+            // Обновляем счетчик товаров
+            document.getElementById('productCount').textContent = visibleCount;
+        }
+
+        // Функция для расчета и отображения скидки
+        function calculateDiscount(originalPrice, discountPrice) {
+            const discount = Math.round((1 - discountPrice / originalPrice) * 100);
+            return discount;
+        }
+
         // Загрузка темы при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             applyTheme(savedTheme);
+
+            // Запускаем таймер распродажи
+            startSaleTimer();
 
             // Обработка кликов по карточкам товаров
             const productCards = document.querySelectorAll('.product-card');
@@ -356,20 +601,118 @@
                     // Игнорируем клики по кнопкам
                     if (!e.target.closest('button')) {
                         this.classList.toggle('selected');
+                        
+                        // Показываем дополнительную информацию при выборе
+                        if (this.classList.contains('selected')) {
+                            const title = this.querySelector('.card-title').textContent;
+                            const discountBadge = this.querySelector('.discount-badge');
+                            if (discountBadge) {
+                                const discountPrice = this.querySelector('.discount-price').textContent;
+                                const originalPrice = this.querySelector('.original-price').textContent;
+                                alert(`Товар "${title}" выбран!\nЦена со скидкой: ${discountPrice}\nСтарая цена: ${originalPrice}\n${discountBadge.textContent} - отличная цена!`);
+                            } else {
+                                const price = this.querySelector('.price-tag').textContent;
+                                alert(`Товар "${title}" выбран!\nЦена: ${price}`);
+                            }
+                        }
                     }
                 });
             });
 
-            // Обработка кнопок "В корзину"
-            const addToCartButtons = document.querySelectorAll('.btn-primary');
-            addToCartButtons.forEach(button => {
+            // Обработка кнопок "Купить" для товаров со скидкой
+            const buyButtons = document.querySelectorAll('.btn-danger');
+            buyButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    const productName = this.closest('.card').querySelector('.card-title').textContent;
-                    alert(`Товар "${productName}" добавлен в корзину!`);
+                    const productCard = this.closest('.product-card');
+                    const productName = productCard.querySelector('.card-title').textContent;
+                    const discountPrice = productCard.querySelector('.discount-price');
+                    const priceTag = productCard.querySelector('.price-tag');
+                    const discountBadge = productCard.querySelector('.discount-badge');
+                    
+                    let price = discountPrice ? discountPrice.textContent : priceTag.textContent;
+                    let message = `Товар "${productName}" добавлен в корзину за ${price}`;
+                    
+                    if (discountBadge) {
+                        message += ` (${discountBadge.textContent})`;
+                    }
+                    
+                    // Показываем уведомление
+                    showNotification(message);
+                });
+            });
+
+            // Обработка кнопок "В корзину" для обычных товаров
+            const cartButtons = document.querySelectorAll('.btn-primary, .btn-success');
+            cartButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const productCard = this.closest('.product-card');
+                    const productName = productCard.querySelector('.card-title').textContent;
+                    const price = productCard.querySelector('.price-tag').textContent;
+                    
+                    showNotification(`Товар "${productName}" добавлен в корзину за ${price}`);
                 });
             });
         });
+
+        // Функция показа уведомления
+        function showNotification(message) {
+            // Создаем элемент уведомления
+            const notification = document.createElement('div');
+            notification.className = 'alert alert-success position-fixed';
+            notification.style.cssText = `
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                min-width: 300px;
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Удаляем уведомление через 3 секунды
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Добавляем стили для анимации уведомлений
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
