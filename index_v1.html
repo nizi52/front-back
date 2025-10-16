@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Семестровая работа</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="page">
+        <header class="header">
+            <h1 class="header__title">работаем.</h1>
+            <button class="theme-switcher" onclick="toggleTheme()">🌙 Тема</button>
+            <script>
+                // Задача 4: Переключение темы
+                function toggleTheme() {
+                    const root = document.documentElement;
+                    const currentTheme = root.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    root.setAttribute('data-theme', newTheme);
+                    
+                    // Сохраняем в localStorage
+                    localStorage.setItem('theme', newTheme);
+                }
+                
+                // Загрузка темы при загрузке страницы
+                document.addEventListener('DOMContentLoaded', function() {
+                    const savedTheme = localStorage.getItem('theme') || 'light';
+                    document.documentElement.setAttribute('data-theme', savedTheme);
+                });
+                
+                // Задача 5: Обработка кликов по карточкам
+                document.addEventListener('DOMContentLoaded', function() {
+                    const cards = document.querySelectorAll('.project-card');
+                    cards.forEach(card => {
+                        card.addEventListener('click', function() {
+                            this.classList.toggle('project-card--selected');
+                        });
+                    });
+                });
+            </script>
+        </header>
+        <nav class="nav">
+            <ul class="nav__list">
+                <li class="nav__item nav__item--active"><a class="nav__link" href="index.html">Главная</a></li>
+                <li class="nav__item"><a class="nav__link" href="pages/news.html">Новости</a></li>
+                <li class="nav__item"><a class="nav__link" href="pages/practices.html">Практики</a></li>
+                <li class="nav__item"><a class="nav__link" href="pages/goods.html">Товары</a></li>
+                <li class="nav__item"><a class="nav__link" href="pages/contacts.html">Контакты</a></li>
+            </ul>
+        </nav>
+        
+        <main class="main">
+            <section class="profile">
+                <div class="profile__card">
+                    <img class="profile__photo" src="images/photo.jpg" alt="Фото автора">
+                    <div class="profile__info">
+                        <h2 class="profile__name">Зайнуллин Яков Александрович</h2>
+                        <p class="profile__group">ЭФБО-07-24</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about">
+                <h2 class="about__title">Обо мне</h2>
+                <p class="about__text">Я родился в Москве, живу в МИРЭА, работаю в РТУ</p>
+            </section>
+
+            <section class="skills">
+                <h2 class="skills__title">Мои навыки</h2>
+                <div class="skills__list">
+                    <div class="skill skill--cooking">
+                        <span class="skill__name">Готовить умею</span>
+                    </div>
+                    <div class="skill skill--sleeping">
+                        <span class="skill__name">Спать умею</span>
+                    </div>
+                    <div class="skill skill--coding">
+                        <span class="skill__name">Сайты пишу</span>
+                    </div>
+                    <div class="skill skill--volleyball">
+                        <span class="skill__name">Волейболистикс</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="projects">
+                <h2 class="projects__title">Мой опыт работы</h2>
+                <div class="projects__grid">
+                    <article class="project-card">
+                        <h3 class="project-card__title">Опыт 1</h3>
+                        <p class="project-card__desc">Работал и работаю в мирэа. рту</p>
+                    </article>
+                    <article class="project-card">
+                        <h3 class="project-card__title">Опыт 2</h3>
+                        <p class="project-card__desc">Подрабатываю студентом</p>
+                    </article>
+                    <article class="project-card">
+                        <h3 class="project-card__title">Опыт 3</h3>
+                        <p class="project-card__desc">Играл в волейбол с Мастером Спорта Международного Класса</p>
+                    </article>
+                </div>
+            </section>
+        </main>
+        <footer class="footer">
+            <p class="footer__text">&copy; 2024 Работаем. Все права защищены.</p>
+        </footer>
+    </div>
+</body>
+</html>

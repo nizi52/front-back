@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Новости</title>
+    <title>Товары</title>
     <link rel="stylesheet" href="../styles/style.css">
 </head>
 <body>
     <div class="page">
         <header class="header">
-            <h1 class="header__title">Новости</h1>
+            <h1 class="header__title">Товары</h1>
             <button class="theme-switcher" onclick="toggleTheme()">🌙 Тема</button>
             <script>
                 // Задача 4: Переключение темы
@@ -43,31 +43,31 @@
         <nav class="nav">
             <ul class="nav__list">
                 <li class="nav__item"><a href="../index.html" class="nav__link">Главная</a></li>
-                <li class="nav__item nav__item--active"><a href="news.html" class="nav__link">Новости</a></li>
+                <li class="nav__item"><a href="news.html" class="nav__link">Новости</a></li>
                 <li class="nav__item"><a href="practices.html" class="nav__link">Практики</a></li>
-                <li class="nav__item"><a href="goods.html" class="nav__link">Товары</a></li>
+                <li class="nav__item nav__item--active"><a href="goods.html" class="nav__link">Товары</a></li>
                 <li class="nav__item"><a href="contacts.html" class="nav__link">Контакты</a></li>
             </ul>
         </nav>
         <main class="main">
-            <section class="news">
-                <h2 class="news__title">Последние новости</h2>
-                <div class="news__list">
-                    <article class="news-item">
-                        <h3 class="news-item__title">P2P - почему это безопасно</h3>
-                        <p class="news-item__date"><strong>Дата:</strong> 2025-01-01 | <strong>Автор:</strong> Аноним</p>
-                        <p class="news-item__text">P2P технологии предлагают принципиально иной подход к цифровым коммуникациям, ставя во главу угла приватность и безопасность пользователей.</p>
-                    </article>
-                    <article class="news-item">
-                        <h3 class="news-item__title">Блокчейн - основы технологии</h3>
-                        <p class="news-item__date"><strong>Дата:</strong> 2025-01-02 | <strong>Автор:</strong> Аноним</p>
-                        <p class="news-item__text">Блокчейн — это не просто технология для криптовалют, а фундаментальный прорыв в способах организации доверительных взаимодействий между людьми.</p>
-                    </article>
-                    <article class="news-item">
-                        <h3 class="news-item__title">Боль - Н Е В С Ё</h3>
-                        <p class="news-item__date"><strong>Дата:</strong> 2025-01-03 | <strong>Автор:</strong> яКОВ</p>
-                        <p class="news-item__text">После успешной попытки сальто яков растянул живот и больше не может крутиться...</p>
-                    </article>
+            <section class="projects">
+                <h2 class="projects__title">Наши товары</h2>
+                <div class="projects__grid">
+                    <div class="project-card">
+                        <img src="../images/product1.jpg" alt="Товар 1" width="150" height="150">
+                        <h3 class="project-card__title">Женский наборчик</h3>
+                        <p class="project-card__desc">Цена: 5000 рублей</p>
+                    </div>
+                    <div class="project-card">
+                        <img src="../images/product2.jpg" alt="Товар 2" width="150" height="150">
+                        <h3 class="project-card__title">Обеденный наборчик</h3>
+                        <p class="project-card__desc">Цена: 500 рублей</p>
+                    </div>
+                    <div class="project-card">
+                        <img src="../images/product3.jpg" alt="Товар 3" width="150" height="150">
+                        <h3 class="project-card__title">Алмазный меч</h3>
+                        <p class="project-card__desc">Цена: 100000000 рублей</p>
+                    </div>
                 </div>
             </section>
         </main>
